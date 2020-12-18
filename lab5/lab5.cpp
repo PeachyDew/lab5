@@ -69,6 +69,72 @@ public:
 
 	//}
 };
+class Desc : public Base
+{
+public:
+	int valuedesc;
+	Desc() {
+		cout << "Вызов конструктора Desc" << endl;
+	}
+	Desc(Desc* obj) {
+		cout << "Вызов конструктора преобразования *Desc" << endl;
+	}
+	Desc(Desc& obj) {
+		cout << "Вызов копирующего конструктора &Desc" << endl;
+	}
+	~Desc() {
+		cout << "~Desc" << endl;
+	}
+	string classname() {
+
+		return "Desc";
+
+	}
+	bool isA(string classnm)
+	{
+		if (classname() == classnm) {
+			cout << "true" << endl;
+			return true;
+		}
+		else {
+			cout << "false" << endl;
+			return Base::isA(classnm);
+		}
+	}
+	void method2_1() {//переопределенный метод 
+		cout << "Метод method2_1 потомка Desc" << endl;
+	}
+	void method2_2() {//переопределенный метод 
+		cout << "Метод method2_2 потомка Desc" << endl;
+	}
+	void method3() {
+		cout << "Метод method3 потомка Desc" << endl;
+	}
+	void method4() {//переопределенный  метод 
+		cout << "Виртуальный метод method4 потомка Desc" << endl;
+	}
+	void redefinition(int d) {
+		valuedesc = d + 1;
+		cout << "Метод redefinition у потомка Desc " << endl;
+	}
+	//virtual ~Desc() // примечание: Деструктор виртуальный
+	//{
+	//	cout << "Виртуальный деструктор Desk" << endl;
+	//}
+};
+
+void func1(Base obj) {
+	cout << " Функция func1 obj" << endl;
+	obj.redefinition(1);//виртуальный метод Base
+}
+void func2(Base* obj) {
+	cout << "Функция func2 *obj" << endl;
+	obj->redefinition(2);
+}
+void func3(Base& obj) {
+	cout << "Функция func3 &obj" << endl;
+	obj.redefinition(3);
+}
 
 
 int main() {
