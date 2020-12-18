@@ -136,6 +136,75 @@ void func3(Base& obj) {
 	obj.redefinition(3);
 }
 
+void affiliation() {//приведение типов и проверка принадлежности классу
+	bool cheker;
+	Desc* des1 = new Desc;
+	Base* bas1 = ((Base*)(des1));//опасное приведение типов
+
+	cheker = bas1->isA("Desc"); //проверка на принадлежность классу Desc
+	if (cheker == 1) {
+		cout << "Принадлежит классу Desc " << endl;
+	}
+	else cout << "Принадлежит классу Base " << endl;
+
+	Desc* des2 = new Desc;
+	Base* bas2 = dynamic_cast<Base*>(des2);//безопасное приведение типов
+	cheker = bas2->isA("Desc");
+	if (cheker == 1) {
+		cout << "Принадлежит классу Desc " << endl;
+	}
+	else cout << "Принадлежит классу Base " << endl;
+	cout << endl;
+}
+
+void objecttransfer() {//передача объекта как параметров  в функцию
+	cout << "Cоздается объект Base и передатся в функции: " << endl;
+	Base* bas1 = new Base;
+	bas1->valuebase = 0;
+	func1(bas1);//создает новый объект копирующим конструктором &Basе
+	cout << "valuebase в функции Base: ";
+	cout << bas1->valuebase << endl;
+	func2(bas1);//Передает адрес в ссылку
+	cout << "valuebase в функции Base: ";
+	cout << bas1->valuebase << endl;
+	func3(*bas1);//Передает адрес напрямую
+	cout << "valuebase в функции Base: ";
+	cout << bas1->valuebase << endl << endl;
+
+	cout << "Cоздается объект Desc и передается в функции: " << endl;
+	Desc* des1 = new Desc;
+	des1->valuedesc = 0;
+	func1(des1);//создается новый объект Base
+	cout << "vauedesc в функции Desc: ";
+	cout << des1->valuedesc << endl;
+	func2(des1);
+	cout << "vauedesc в функции Desc: ";
+	cout << des1->valuedesc << endl;
+	func3(*des1);
+	cout << "vauedesc в функции Desc: ";
+	cout << des1->valuedesc << endl;
+}
+
+void virtualmethods() {//Вызов виртуальных методов
+	Desc des1;
+	cout << "method1_1 у класса-потомка Desc: " << endl;
+	des1.method1_1();//все вызывается из родительского класса
+	cout << "method1_2 у класса-потомка Desc: " << endl;
+	des1.method1_2();//вложенная функция вызывается из Desc(2_2 виртуален в базовом)
+	Desc* des2 = new Desc;
+	cout << "Вызов при обращении к объекту класса-потомка Desc: " << endl;
+	des2->method3();//все вызывается из деск
+	des2->method4();
+	Base* bas1 = new Desc;
+	cout << "вызов при обращении к объекту через указатель на класс-потомок Desc: " << endl;
+	bas1->method3();//вызывается метод из Base через указатель
+	bas1->method4();//вызывается метод из Desc(4 виртуален в базовом)
+	Base* bas2 = new Base;
+	cout << "Вызов при обращении к объекту через указатель на базовый класс: " << endl;
+	bas2->method3();//вызываются методы из Base
+	bas2->method4();
+}
+
 
 int main() {
 	system("COLOR F0");
